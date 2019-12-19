@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>JS</title>
+  <style>
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      align-self: center;
+    }
+
+    td {
+      border: 1px solid black;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="countdown"></div>
+  <div><select onclick="Timer()"><option value="0" selected="selected">Select</option></select></div>
+  <table></table>
+  <script>
+    let sel = document.getElementsByTagName("select")[0];
+    let tbl = document.getElementsByTagName("table")[0];
+    let dv = document.getElementsByTagName("div")[1];
+    let cd = document.getElementById("countdown")
+    let M = [];
+    let X = [];
+    let x;
+
+    function Matris(n) {
+      let k = 1;
+
+      for (let i = 0; i < n * n; i++) {
+        M[i] = k++;
+      }
+      for (let i = 0; i < n * n; i++) {
+        x = Math.floor(Math.random() * M.length);
+        X[i] = M[x];
+        M.splice(x, 1);
+      }
+    }
+
+    onload = function () {
+      let opt = "";
+      for (let i = 3; i <= 9; i++) {
+        opt += `<option value="${i}">${i}</option>`;
+      }
+      sel.innerHTML += opt;
+    };
+    sel.onchange = function () {
+      let a = sel.value;
+      Matris(a);
+      let t = "";
+      let x = 0;
+      for (let i = 1; i <= a; i++) {
+        t += `<tr>`;
+        for (let j = 1; j <= a; j++) {
+          t += `<td >${X[x++]}</td>`;
+        }
+        t += `</tr>`;
+      }
+      tbl.innerHTML = t;
+      dv.innerHTML = "";
+    };
+    function Timer() {
+      let timeleft = 30;
+      let dt = setInterval(function () {
+        document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+        timeleft -= 1;
+        if (timeleft <= -1) {
+          clearInterval(dt);
+          tbl.innerHTML = ""
+          cd.innerHTML = ""
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+
+</html>
